@@ -5,7 +5,7 @@
     "name": "mechcommit",
     "displayName": "MechCommit",
     "description": "This extension tries to make commiting on vscode alot easier.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "icon": "./assets/icons/mechIcon.png",
     "engines": {
         "vscode": "^1.95.0"

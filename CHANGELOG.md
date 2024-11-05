@@ -5,3 +5,7 @@ All notable changes to the "mechcommit" extension will be documented in this fil
 ## [0.0.1] - 2024-11-5
 
 -   Initial release
+
+## [0.0.2] - 2024-11-5
+
+-   Just fixed some tiny bugs. Nothing really changed
