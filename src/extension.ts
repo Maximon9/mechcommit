@@ -28,7 +28,7 @@ const addGitCommits = async () => {
     if (stopFlag) {
         return;
     }
-    await sleep(0.5);
+    await sleep(500);
     if (stopFlag) {
         return;
     }
