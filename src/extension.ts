@@ -8,6 +8,8 @@ import { runGitCommand } from "./utils/runGitCommand";
 import { checkGitStatus } from "./utils/checkGitStatus";
 import { generateCommitMessage } from "./utils/generateCommitMessage";
 
+type PostCommitCommand = "none" | "push" | "sync";
+type OverridePostCommitCommand = "nooverride" | "none" | "push" | "sync";
 interface ActionString {
     addedFiles: string;
     updatedFiles: string;
@@ -15,16 +17,20 @@ interface ActionString {
 }
 interface Configs extends WorkspaceConfiguration {
     actionStrings: ActionString;
+    runPostCommitCommand: boolean;
+    overridePostCommitCommand: OverridePostCommitCommand;
 }
 
 let stopFlag = false;
 
 const addGitCommits = () => {
     const gitModifications = getGitModifications();
-    const configs: Configs = workspace.getConfiguration(
-        "mechcommit"
-    ) as Configs;
-    if (!configs.has("actionStrings")) {
+    const configs = workspace.getConfiguration("mechcommit") as Configs;
+    if (
+        !configs.has("actionStrings") ||
+        !configs.has("runPostCommitCommand") ||
+        !configs.has("overridePostCommitCommand")
+    ) {
         return;
     }
     if (gitModifications !== undefined) {
@@ -64,6 +70,25 @@ const addGitCommits = () => {
         }
         if (message !== "") {
             runGitCommand("git", ["commit", "-m", message]);
+            if (configs.runPostCommitCommand) {
+                const gitConfigs = workspace.getConfiguration("git");
+                let postCommitCommand: PostCommitCommand = "none";
+                if (configs.has("postCommitCommand")) {
+                    postCommitCommand = gitConfigs.postCommitCommand;
+                }
+                if (configs.overridePostCommitCommand !== "nooverride") {
+                    postCommitCommand = configs.overridePostCommitCommand;
+                }
+                switch (postCommitCommand) {
+                    case "push":
+                        runGitCommand("git", ["push"]);
+                        break;
+                    case "sync":
+                        runGitCommand("git", ["pull"]);
+                        runGitCommand("git", ["push"]);
+                        break;
+                }
+            }
         }
     }
 };

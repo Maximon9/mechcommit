@@ -30,7 +30,29 @@
                         "updatedFiles": "Updated",
                         "deletedFiles": "Deleted"
                     },
-                    "description": "Complete functions with their parameter signature."
+                    "description": "Tells the extension what strings to use to write the commit messages for modified files"
+                },
+                "mechcommit.runPostCommitCommand": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Runs the post commit command, if there is one set in the settings"
+                },
+                "mechcommit.overridePostCommitCommand": {
+                    "type": "string",
+                    "enum": [
+                        "nooverride",
+                        "none",
+                        "push",
+                        "sync"
+                    ],
+                    "markdownEnumDescriptions": [
+                        "There is no override",
+                        "Don't run any command after a commit.",
+                        "Run 'git push' after a successful commit.",
+                        "Run 'git pull' and 'git push' after a successful commit."
+                    ],
+                    "default": "nooverride",
+                    "description": "Overrides the current post commit command"
                 }
             }
         }
