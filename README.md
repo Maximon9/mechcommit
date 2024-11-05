@@ -44,4 +44,4 @@ This extension contributes the following settings:
 
 None that I know off yet.
 
-If you have any issues please report here `https://github.com/Maximon9/mechcommit/issues`
+If you have any issues please report [here](https://github.com/Maximon9/mechcommit/issues)
