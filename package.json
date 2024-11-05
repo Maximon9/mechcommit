@@ -5,7 +5,11 @@
     "name": "mechcommit",
     "displayName": "MechCommit",
     "description": "This extension tries to make commiting on vscode alot easier.",
-    "version": "0.0.2",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Maximon9/mechcommit.git"
+    },
+    "version": "0.0.3",
     "icon": "./assets/icons/mechIcon.png",
     "engines": {
         "vscode": "^1.95.0"
