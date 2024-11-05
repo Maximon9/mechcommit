@@ -35,8 +35,8 @@ const addGitCommits = async () => {
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    let start = vscode.commands.registerCommand(
-        "auto-commit-master.start",
+    const start = vscode.commands.registerCommand(
+        "mechcommit.start",
         async () => {
             process.chdir(
                 vscode.workspace.workspaceFolders?.[0].uri.fsPath ?? ""
@@ -48,14 +48,14 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.window.showErrorMessage(status.error);
                 return vscode.commands.executeCommand(
                     "setContext",
-                    "autoCommitMaster.active",
+                    "MechCommit.active",
                     false
                 );
             } else if (status.message) {
                 vscode.window.showInformationMessage(status.message);
                 return vscode.commands.executeCommand(
                     "setContext",
-                    "autoCommitMaster.active",
+                    "MechCommit.active",
                     false
                 );
             }
@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
             stopFlag = false;
             vscode.commands.executeCommand(
                 "setContext",
-                "autoCommitMaster.active",
+                "MechCommit.active",
                 true
             );
             vscode.window.showInformationMessage("Auto Commit Master started!");
@@ -78,32 +78,25 @@ export function activate(context: vscode.ExtensionContext) {
                 );
                 vscode.commands.executeCommand(
                     "setContext",
-                    "autoCommitMaster.active",
+                    "MechCommit.active",
                     false
                 );
             }
         }
     );
 
-    let stop = vscode.commands.registerCommand(
-        "auto-commit-master.stop",
-        () => {
-            stopFlag = true;
-            vscode.commands.executeCommand(
-                "setContext",
-                "autoCommitMaster.active",
-                false
-            );
-            vscode.window.showInformationMessage("Auto Commit Master stopped!");
-        }
-    );
+    const stop = vscode.commands.registerCommand("mechcommit.stop", () => {
+        stopFlag = true;
+        vscode.commands.executeCommand(
+            "setContext",
+            "MechCommit.active",
+            false
+        );
+        vscode.window.showInformationMessage("Auto Commit Master stopped!");
+    });
 
     context.subscriptions.push(start, stop);
-    vscode.commands.executeCommand(
-        "setContext",
-        "autoCommitMaster.active",
-        false
-    );
+    vscode.commands.executeCommand("setContext", "MechCommit.active", false);
 }
 
 // This method is called when this extension is deactivated
