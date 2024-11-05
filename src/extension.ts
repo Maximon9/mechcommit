@@ -37,12 +37,14 @@ const addGitCommits = () => {
     }
     let lastTime = Date.now();
     let timer = 0;
+    console.log("started timer");
     while (timer <= configs.stopTime) {
         if (stopFlag) {
             return;
         }
         const currentTime = Date.now();
         const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
+        console.log(deltaTime);
 
         timer += deltaTime;
 
@@ -51,6 +53,7 @@ const addGitCommits = () => {
             return;
         }
     }
+    console.log("finished timer");
     const gitModifications = getGitModifications();
     if (gitModifications !== undefined) {
         const propertyNames: (keyof GitModifications)[] = Object.keys(
