@@ -52,7 +52,6 @@ const addGitCommits = () => {
             return;
         }
     }
-    console.log("ok");
     const gitModifications = getGitModifications();
     if (gitModifications !== undefined) {
         const propertyNames: (keyof GitModifications)[] = Object.keys(
@@ -120,7 +119,7 @@ const addGitCommits = () => {
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.run", () => {
+    const start = commands.registerCommand("mechcommit.run", async () => {
         process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
 
         const status = checkGitStatus();
@@ -153,7 +152,7 @@ export function activate(context: ExtensionContext) {
         }
     });
 
-    const stop = commands.registerCommand("mechcommit.stop", () => {
+    const stop = commands.registerCommand("mechcommit.stop", async () => {
         console.log("Stop has started");
         stopFlag = true;
         commands.executeCommand("setContext", "mechcommit.active", false);
