@@ -35,7 +35,7 @@ const addGitCommits = () => {
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.start", () => {
+    const start = commands.registerCommand("mechcommit.run", () => {
         process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
 
         const status = checkGitStatus();

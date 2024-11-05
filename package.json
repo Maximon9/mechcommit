@@ -15,9 +15,9 @@
     "contributes": {
         "commands": [
             {
-                "command": "mechcommit.start",
-                "title": "MechCommitStart",
-                "category": "Git"
+                "command": "mechcommit.run",
+                "title": "run",
+                "category": "MechCommit"
             }
         ],
         "configuration": {
