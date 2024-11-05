@@ -26,7 +26,7 @@ interface Configs extends WorkspaceConfiguration {
 
 let stopFlag = false;
 
-const addGitCommits = async () => {
+const addGitCommits = () => {
     const configs = workspace.getConfiguration("mechcommit") as Configs;
     if (
         !configs.has("stopTime") ||
@@ -52,6 +52,7 @@ const addGitCommits = async () => {
             return;
         }
     }
+    console.log("ok");
     const gitModifications = getGitModifications();
     if (gitModifications !== undefined) {
         const propertyNames: (keyof GitModifications)[] = Object.keys(
