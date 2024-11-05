@@ -70,7 +70,6 @@ const addGitCommits = () => {
         }
         if (message !== "") {
             runGitCommand("git", ["commit", "-m", message]);
-            console.log(configs.runPostCommitCommand);
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";
@@ -82,11 +81,23 @@ const addGitCommits = () => {
                 }
                 switch (postCommitCommand) {
                     case "push":
-                        runGitCommand("git", ["push"]);
+                        console.log(
+                            runGitCommand("git", ["push"])
+                                .stdout.toString()
+                                .trim()
+                        );
                         break;
                     case "sync":
-                        runGitCommand("git", ["pull"]);
-                        runGitCommand("git", ["push"]);
+                        console.log(
+                            runGitCommand("git", ["pull"])
+                                .stdout.toString()
+                                .trim()
+                        );
+                        console.log(
+                            runGitCommand("git", ["push"])
+                                .stdout.toString()
+                                .trim()
+                        );
                         break;
                 }
             }

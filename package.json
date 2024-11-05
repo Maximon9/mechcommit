@@ -18,6 +18,11 @@
                 "command": "mechcommit.run",
                 "title": "run",
                 "category": "MechCommit"
+            },
+            {
+                "command": "mechcommit.stop",
+                "title": "run",
+                "category": "MechCommit"
             }
         ],
         "configuration": {
