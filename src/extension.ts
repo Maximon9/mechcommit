@@ -38,7 +38,6 @@ const addGitCommits = () => {
             }
             const name: keyof GitModifications = propertyNames[i];
             const modifications = gitModifications[name];
-            console.log(modifications);
             if (modifications.length > 0) {
                 const action =
                     name === "addedFiles"

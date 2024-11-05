@@ -33,8 +33,10 @@ export const getGitModifications = (): GitModifications | undefined => {
                     .toString()
                     .trim()
                     .split("\n");
-                console.log(`filesData ${key}`, filesData);
-                files[key] = filesData;
+                if (filesData.length > 1 || filesData[0] !== "") {
+                    console.log(`filesData ${key}`, filesData);
+                    files[key] = filesData;
+                }
             }
         } catch (error) {
             window.showInformationMessage("Git command failed");
