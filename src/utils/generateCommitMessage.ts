@@ -1,10 +1,8 @@
+import { basename } from "path";
+
 export const generateCommitMessage = (
-    file: string,
+    files: string[],
     prefix?: string
 ): string => {
-    const fileName = file
-        .split("/")
-        .pop()
-        ?.replace(/^[_\-\/]+/, "");
-    return `${prefix} ${fileName}`;
+    return `${prefix} ${files.map((file) => basename(file)).join(", ")}`;
 };

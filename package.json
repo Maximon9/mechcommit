@@ -26,9 +26,9 @@
                 "mechcommit.actionStrings": {
                     "type": "object",
                     "default": {
-                        "add": "Add",
-                        "update": "Update",
-                        "delete": "Delete"
+                        "addedFiles": "Added",
+                        "updatedFiles": "Updated",
+                        "deletedFiles": "Deleted"
                     },
                     "description": "Complete functions with their parameter signature."
                 }
