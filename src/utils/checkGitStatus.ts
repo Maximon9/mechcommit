@@ -11,6 +11,7 @@ export const checkGitStatus = (): GitStatus => {
         const gitStatus: SpawnSyncReturns<Buffer> = spawnSync("git", [
             "status",
         ]);
+        console.log(gitStatus);
         if (
             gitStatus.stdout
                 .toString()
