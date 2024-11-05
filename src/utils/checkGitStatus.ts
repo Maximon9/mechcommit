@@ -1,48 +1,37 @@
-import { ChildProcess, spawn } from "child_process";
+import type { SpawnSyncReturns } from "child_process";
+import { spawnSync } from "child_process";
 
 interface GitStatus {
-    error: string;
-    message: string;
+    error?: string;
+    message?: string;
 }
 
-export const checkGitStatus = async (): Promise<GitStatus> => {
-    const gitStatus: ChildProcess = spawn("git", ["status"]);
-
-    return new Promise((resolve, reject) => {
-        if (gitStatus.stdout) {
-            gitStatus.stdout.on("data", (data) => {
-                if (
-                    data
-                        .toString()
-                        .includes("nothing to commit, working tree clean")
-                ) {
-                    resolve({
-                        error: "",
-                        message: "All files are committed!",
-                    });
-                } else {
-                    resolve({
-                        error: "",
-                        message: "",
-                    });
-                }
-            });
+export const checkGitStatus = (): GitStatus => {
+    try {
+        const gitStatus: SpawnSyncReturns<Buffer> = spawnSync("git", [
+            "status",
+        ]);
+        if (
+            gitStatus.stdout
+                .toString()
+                .includes("nothing to commit, working tree clean")
+        ) {
+            return {
+                message: "All files are committed!",
+            };
         }
 
-        if (gitStatus.stderr) {
-            gitStatus.stderr.on("data", (error) => {
-                if (error.toString().includes("fatal: not a git repository")) {
-                    resolve({
-                        error: "Git is not initialized in this directory!",
-                        message: "",
-                    });
-                } else {
-                    resolve({
-                        error: "",
-                        message: "",
-                    });
-                }
-            });
+        if (
+            gitStatus.stderr.toString().includes("fatal: not a git repository")
+        ) {
+            return {
+                error: "Git is not initialized in this directory!",
+            };
         }
-    });
+        return {};
+    } catch (error) {
+        return {
+            error: "Something went wrong",
+        };
+    }
 };

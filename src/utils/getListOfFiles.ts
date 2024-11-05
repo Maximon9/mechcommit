@@ -1,56 +1,48 @@
-import { spawn, ChildProcess } from "child_process";
+import type { SpawnSyncReturns } from "child_process";
+import { spawnSync } from "child_process";
+import { window } from "vscode";
 
-export interface GitFiles {
-    newFiles: string[];
-    modifiedFiles: string[];
+export interface GitModifications {
+    addedFiles: string[];
+    updatedFiles: string[];
     deletedFiles: string[];
 }
 
-export const getFiles = async (): Promise<GitFiles> => {
-    const commands: Record<string, [string, string[]]> = {
-        newFiles: ["git", ["ls-files", "--others", "--exclude-standard"]],
-        modifiedFiles: [
-            "git",
-            ["ls-files", "--modified", "--exclude-standard"],
-        ],
-        deletedFiles: ["git", ["ls-files", "--deleted"]],
-    };
-
-    const files: GitFiles = {
-        newFiles: [],
-        modifiedFiles: [],
+const commands: Record<keyof GitModifications, [string, string[]]> = {
+    addedFiles: ["git", ["ls-files", "--others", "--exclude-standard"]],
+    updatedFiles: ["git", ["ls-files", "--modified", "--exclude-standard"]],
+    deletedFiles: ["git", ["ls-files", "--deleted"]],
+};
+export const getGitModifications = (): GitModifications | undefined => {
+    const files: GitModifications = {
+        addedFiles: [],
+        updatedFiles: [],
         deletedFiles: [],
     };
 
-    const promises: Promise<void>[] = [];
-    for (const key in commands) {
+    let key: keyof GitModifications;
+    for (key in commands) {
         const command = commands[key];
-        const promise = new Promise<void>((resolve, reject) => {
-            const child: ChildProcess = spawn(command[0], command[1]);
-            child.stdout?.on("data", (data: Buffer) => {
-                if (files[key as keyof GitFiles].length === 0) {
-                    const filesData: string[] = data
-                        .toString()
-                        .trim()
-                        .split("\n");
-                    console.log(`filesData ${key}`, filesData);
-                    files[key as keyof GitFiles] = filesData;
-                }
-            });
-            child.on("close", (code: number) => {
-                if (code !== 0) {
-                    reject(new Error("Git command failed"));
-                } else {
-                    resolve();
-                }
-            });
-        });
-        promises.push(promise);
+        try {
+            const child: SpawnSyncReturns<Buffer> = spawnSync(
+                command[0],
+                command[1]
+            );
+            if (files[key].length === 0) {
+                const filesData: string[] = child.stdout
+                    .toString()
+                    .trim()
+                    .split("\n");
+                console.log(`filesData ${key}`, filesData);
+                files[key] = filesData;
+            }
+        } catch (error) {
+            window.showInformationMessage("Git command failed");
+            return undefined;
+        }
     }
 
-    await Promise.all(promises);
-
-    files.modifiedFiles = files.modifiedFiles.filter(
+    files.updatedFiles = files.updatedFiles.filter(
         (file) => !files.deletedFiles.includes(file)
     );
 
