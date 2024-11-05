@@ -73,13 +73,13 @@ const addGitCommits = () => {
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";
+                console.log(gitConfigs.get(postCommitCommand));
                 if (configs.has("postCommitCommand")) {
                     postCommitCommand = gitConfigs.postCommitCommand;
                 }
                 if (configs.overridePostCommitCommand !== "nooverride") {
                     postCommitCommand = configs.overridePostCommitCommand;
                 }
-                console.log(postCommitCommand);
                 switch (postCommitCommand) {
                     case "push":
                         console.log(
