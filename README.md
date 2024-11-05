@@ -1,8 +1,6 @@
 # MechCommit Extension
 
 First off, huge props to safdar-azeem on github for leading me in the right direction.
-
-This is the README for your extension "mechcommit". After writing up a brief description, we recommend including the following sections.
 This extension tries to make commiting way more easily. It auto generates messages and then automatically commits.
 
 ## Features

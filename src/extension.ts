@@ -85,10 +85,9 @@ const addGitCommits = async () => {
                 message += generateCommitMessage(modifications, action);
             }
         }
+
         if (message !== "") {
-            if (stopFlag) {
-                return;
-            }
+            message += "; ";
             runGitCommand("git", ["commit", "-m", message]);
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
