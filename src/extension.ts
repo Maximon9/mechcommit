@@ -122,7 +122,7 @@ const addGitCommits = () => {
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.run", async () => {
+    const start = commands.registerCommand("mechcommit.run", () => {
         process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
 
         const status = checkGitStatus();
@@ -147,7 +147,7 @@ export function activate(context: ExtensionContext) {
         commands.executeCommand("setContext", "mechcommit.active", true);
         window.showInformationMessage("Auto Commit Master started!");
 
-        await addGitCommits();
+        addGitCommits();
 
         if (!stopFlag) {
             window.showInformationMessage("All files are committed!");
