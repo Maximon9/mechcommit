@@ -73,8 +73,7 @@ const addGitCommits = () => {
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";
-                console.log(gitConfigs.get("postCommitCommand"));
-                if (configs.has("postCommitCommand")) {
+                if (gitConfigs.has("postCommitCommand")) {
                     postCommitCommand = gitConfigs.postCommitCommand;
                 }
                 if (configs.overridePostCommitCommand !== "nooverride") {
@@ -82,23 +81,11 @@ const addGitCommits = () => {
                 }
                 switch (postCommitCommand) {
                     case "push":
-                        console.log(
-                            runGitCommand("git", ["push"])
-                                .stdout.toString()
-                                .trim()
-                        );
+                        runGitCommand("git", ["push"]);
                         break;
                     case "sync":
-                        console.log(
-                            runGitCommand("git", ["pull"])
-                                .stdout.toString()
-                                .trim()
-                        );
-                        console.log(
-                            runGitCommand("git", ["push"])
-                                .stdout.toString()
-                                .trim()
-                        );
+                        runGitCommand("git", ["pull"]);
+                        runGitCommand("git", ["push"]);
                         break;
                 }
             }
