@@ -1,16 +1,16 @@
 <svg width="128px" height="128px" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <linearGradient id="git-color" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stop-color="#ffbd72" />
-            <stop offset="100%" stop-color="#ffbd72" />
+            <stop offset="0%" stop-color="#ff8800" />
+            <stop offset="100%" stop-color="#ff8800" />
         </linearGradient>
         <linearGradient id="cog-center-color" x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stop-color="#a1a1a1" />
-            <stop offset="100%" stop-color="#a1a1a1" />
+            <stop offset="0%" stop-color="#696969" />
+            <stop offset="100%" stop-color="#696969" />
         </linearGradient>
         <linearGradient id="cog-tip-color" x1="0%" x2="0%" y1="0%" y2="100%">
-            <stop offset="0%" stop-color="#bdbdbd" />
-            <stop offset="40%" stop-color="#838383" />
+            <stop offset="0%" stop-color="#808080" />
+            <stop offset="40%" stop-color="#555555" />
         </linearGradient>
     </defs>
     <g id="cog-wheel" fill="url(#cog-tip-color)">

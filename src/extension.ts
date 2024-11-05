@@ -17,6 +17,7 @@ interface ActionString {
     deletedFiles: string;
 }
 interface Configs extends WorkspaceConfiguration {
+    stopTime: number;
     actionStrings: ActionString;
     runPostCommitCommand: boolean;
     overridePostCommitCommand: OverridePostCommitCommand;
@@ -25,22 +26,23 @@ interface Configs extends WorkspaceConfiguration {
 let stopFlag = false;
 
 const addGitCommits = async () => {
-    if (stopFlag) {
-        return;
-    }
-    await sleep(1000);
-    if (stopFlag) {
-        return;
-    }
-    const gitModifications = getGitModifications();
     const configs = workspace.getConfiguration("mechcommit") as Configs;
     if (
+        !configs.has("stopTime") ||
         !configs.has("actionStrings") ||
         !configs.has("runPostCommitCommand") ||
         !configs.has("overridePostCommitCommand")
     ) {
         return;
     }
+    if (stopFlag) {
+        return;
+    }
+    await sleep(configs.stopTime);
+    if (stopFlag) {
+        return;
+    }
+    const gitModifications = getGitModifications();
     if (gitModifications !== undefined) {
         const propertyNames: (keyof GitModifications)[] = Object.keys(
             gitModifications

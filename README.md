@@ -26,6 +26,7 @@ The MechCommit extension offers these following features:
 
 This extension contributes the following settings:
 
+-   `mechcommit.stopTime`: Lets the extension know how much time in milliseconds you want it to give you in order to stop after it has ran.
 -   `mechcommit.actionStrings`: This allows you to change the currenlty highlighted text in the example `Added`: test.json, test1.json; `Updated`: test2.json, test3.json; `Deleted`: test4.json, test4.json.
 -   `mechcommit.runPostCommitCommand`: If true, runs the post commit command if there is one set.
 -   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command.

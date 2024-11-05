@@ -42,8 +42,8 @@
                 "title": "run",
                 "category": "MechCommit",
                 "icon": {
-                    "dark": "assets/icons/start.svg",
-                    "light": "assets/icons/start-light.svg"
+                    "dark": "assets/icons/startLight.svg",
+                    "light": "assets/icons/start.svg"
                 }
             },
             {
@@ -51,14 +51,19 @@
                 "title": "stop",
                 "category": "MechCommit",
                 "icon": {
-                    "dark": "assets/icons/stop.svg",
-                    "light": "assets/icons/stop-light.svg"
+                    "dark": "assets/icons/stopLight.svg",
+                    "light": "assets/icons/stop.svg"
                 }
             }
         ],
         "configuration": {
             "title": "MechCommit",
             "properties": {
+                "mechcommit.stopTime": {
+                    "type": "number",
+                    "default": 1500,
+                    "description": "Lets the extension know how much time in milliseconds you want it to give you in order to stop after it has ran"
+                },
                 "mechcommit.actionStrings": {
                     "type": "object",
                     "default": {
