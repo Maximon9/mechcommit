@@ -19,7 +19,7 @@ The MechCommit extension offers these following features:
 
 ## Requirements
 
--   You gotta have git
+-   You gotta have git.
 -   Make sure you have a Git repository initialized in your workspace.
 
 ## Extension Settings
