@@ -38,6 +38,7 @@ const addGitCommits = () => {
             }
             const name: keyof GitModifications = propertyNames[i];
             const modifications = gitModifications[name];
+            console.log(modifications);
             if (modifications.length > 0) {
                 const action =
                     name === "addedFiles"
@@ -45,7 +46,6 @@ const addGitCommits = () => {
                         : name === "updatedFiles"
                         ? configs.actionStrings.updatedFiles
                         : configs.actionStrings.deletedFiles;
-                console.log(action);
                 if (action === configs.actionStrings.deletedFiles) {
                     for (let index = 0; index < modifications.length; index++) {
                         const file = modifications[index];
