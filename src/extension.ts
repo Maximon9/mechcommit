@@ -79,6 +79,7 @@ const addGitCommits = () => {
                 if (configs.overridePostCommitCommand !== "nooverride") {
                     postCommitCommand = configs.overridePostCommitCommand;
                 }
+                console.log(postCommitCommand);
                 switch (postCommitCommand) {
                     case "push":
                         console.log(
