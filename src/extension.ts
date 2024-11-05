@@ -7,8 +7,8 @@ import { getGitModifications } from "./utils/getListOfFiles";
 import { runGitCommand } from "./utils/runGitCommand";
 import { checkGitStatus } from "./utils/checkGitStatus";
 import { generateCommitMessage } from "./utils/generateCommitMessage";
-import { sleep } from "./utils/sleep";
-import { privateDecrypt } from "crypto";
+import { setInterval } from "timers/promises";
+import { start } from "repl";
 
 type PostCommitCommand = "none" | "push" | "sync";
 type OverridePostCommitCommand = "nooverride" | "none" | "push" | "sync";
@@ -26,7 +26,7 @@ interface Configs extends WorkspaceConfiguration {
 
 let stopFlag = false;
 
-const addGitCommits = () => {
+const addGitCommits = async () => {
     const configs = workspace.getConfiguration("mechcommit") as Configs;
     if (
         !configs.has("stopTime") ||
@@ -36,20 +36,17 @@ const addGitCommits = () => {
     ) {
         return;
     }
-    let lastTime = Date.now();
-    let timer = 0;
-    while (timer <= configs.stopTime) {
+    var stopTimeInMs = configs.stopTime * 1000;
+    for await (const startTime of setInterval(0, Date.now())) {
         if (stopFlag) {
             return;
         }
-        const currentTime = Date.now();
-        const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
-
-        timer += deltaTime;
-
-        lastTime = currentTime;
-        if (stopFlag) {
-            return;
+        const now = Date.now();
+        if (now - startTime > stopTimeInMs) {
+            if (stopFlag) {
+                return;
+            }
+            break;
         }
     }
     const gitModifications = getGitModifications();
@@ -116,49 +113,53 @@ const addGitCommits = () => {
     }
 };
 
+const startFunc = async () => {
+    process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
+
+    const status = checkGitStatus();
+
+    if (status.error !== undefined) {
+        window.showErrorMessage(status.error);
+        return commands.executeCommand(
+            "setContext",
+            "mechcommit.active",
+            false
+        );
+    } else if (status.message !== undefined) {
+        window.showInformationMessage(status.message);
+        return commands.executeCommand(
+            "setContext",
+            "mechcommit.active",
+            false
+        );
+    }
+
+    stopFlag = false;
+    commands.executeCommand("setContext", "mechcommit.active", true);
+    window.showInformationMessage("Auto Commit Master started!");
+
+    await addGitCommits();
+
+    if (!stopFlag) {
+        window.showInformationMessage("All files are committed!");
+        commands.executeCommand("setContext", "mechcommit.active", false);
+    }
+};
+
+const stopFunc = () => {
+    console.log("Stop has started");
+    stopFlag = true;
+    commands.executeCommand("setContext", "mechcommit.active", false);
+    window.showInformationMessage("Auto Commit Master stopped!");
+    console.log("It tried stopping");
+};
+
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.run", () => {
-        process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
+    const start = commands.registerCommand("mechcommit.run", startFunc);
 
-        const status = checkGitStatus();
-
-        if (status.error !== undefined) {
-            window.showErrorMessage(status.error);
-            return commands.executeCommand(
-                "setContext",
-                "mechcommit.active",
-                false
-            );
-        } else if (status.message !== undefined) {
-            window.showInformationMessage(status.message);
-            return commands.executeCommand(
-                "setContext",
-                "mechcommit.active",
-                false
-            );
-        }
-
-        stopFlag = false;
-        commands.executeCommand("setContext", "mechcommit.active", true);
-        window.showInformationMessage("Auto Commit Master started!");
-
-        addGitCommits();
-
-        if (!stopFlag) {
-            window.showInformationMessage("All files are committed!");
-            commands.executeCommand("setContext", "mechcommit.active", false);
-        }
-    });
-
-    const stop = commands.registerCommand("mechcommit.stop", () => {
-        console.log("Stop has started");
-        stopFlag = true;
-        commands.executeCommand("setContext", "mechcommit.active", false);
-        window.showInformationMessage("Auto Commit Master stopped!");
-        console.log("It tried stopping");
-    });
+    const stop = commands.registerCommand("mechcommit.stop", stopFunc);
 
     context.subscriptions.push(start, stop);
     commands.executeCommand("setContext", "mechcommit.active", false);
