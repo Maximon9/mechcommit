@@ -38,12 +38,18 @@ const addGitCommits = () => {
     let lastTime = Date.now();
     let timer = 0;
     while (timer <= configs.stopTime) {
+        if (stopFlag) {
+            return;
+        }
         const currentTime = Date.now();
         const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
 
         timer += deltaTime;
 
         lastTime = currentTime;
+        if (stopFlag) {
+            return;
+        }
     }
     const gitModifications = getGitModifications();
     if (gitModifications !== undefined) {
