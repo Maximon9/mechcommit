@@ -1,6 +1,6 @@
 # MechCommit Extension
 
-First off, huge props to safdar-azeem on github for leading me in the right direction to make this extension.
+First off, huge props to safdar-azeem on github for leading me in the right direction.
 
 This is the README for your extension "mechcommit". After writing up a brief description, we recommend including the following sections.
 This extension tries to make commiting way more easily. It auto generates messages and then automatically commits.
@@ -35,8 +35,8 @@ This extension contributes the following settings:
 -   Open Visual Studio Code.
 -   Make sure you have a Git repository initialized in your workspace.
 -   Open the Git source control panel by clicking on the Git icon in the activity bar on the sidebar.
-    Start button
--   In the source control panel of top, click on the "Commit" icon button to start the automatic commit process.
+    Run button
+-   In the source control panel at the top, click on the "Commit" icon button to start the automatic commit process.
 -   The Auto Commit Master will start automatically committing files in the background
     Stop button
 -   while the extension is running, you can click on the "Stop" icon button to stop the automatic commit process.
