@@ -46,7 +46,6 @@ const addGitCommits = () => {
         const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
 
         timer += deltaTime;
-        console.log(timer);
 
         lastTime = currentTime;
         if (stopFlag) {
