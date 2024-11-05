@@ -64,7 +64,7 @@
             "properties": {
                 "mechcommit.stopTime": {
                     "type": "number",
-                    "default": 1500,
+                    "default": 1000,
                     "description": "Lets the extension know how much time in milliseconds you want it to give you in order to stop after it has ran"
                 },
                 "mechcommit.actionStrings": {
