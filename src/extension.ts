@@ -120,40 +120,32 @@ export function activate(context: ExtensionContext) {
 
         if (status.error !== undefined) {
             window.showErrorMessage(status.error);
-            return commands.executeCommand(
-                "setContext",
-                "MechCommit.active",
-                false
-            );
+            return commands.executeCommand("setContext", "mechcommit", false);
         } else if (status.message !== undefined) {
             window.showInformationMessage(status.message);
-            return commands.executeCommand(
-                "setContext",
-                "MechCommit.active",
-                false
-            );
+            return commands.executeCommand("setContext", "mechcommit", false);
         }
 
         stopFlag = false;
-        commands.executeCommand("setContext", "MechCommit.active", true);
+        commands.executeCommand("setContext", "mechcommit", true);
         window.showInformationMessage("Auto Commit Master started!");
 
         await addGitCommits();
 
         if (!stopFlag) {
             window.showInformationMessage("All files are committed!");
-            commands.executeCommand("setContext", "MechCommit.active", false);
+            commands.executeCommand("setContext", "mechcommit", false);
         }
     });
 
     const stop = commands.registerCommand("mechcommit.stop", () => {
         stopFlag = true;
-        commands.executeCommand("setContext", "MechCommit.active", false);
+        commands.executeCommand("setContext", "mechcommit", false);
         window.showInformationMessage("Auto Commit Master stopped!");
     });
 
     context.subscriptions.push(start, stop);
-    commands.executeCommand("setContext", "MechCommit.active", false);
+    commands.executeCommand("setContext", "mechcommit", false);
 }
 
 // This method is called when this extension is deactivated
