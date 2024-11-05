@@ -1,0 +1,30 @@
+<svg width="128px" height="128px" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="git-color" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffbd72" />
+            <stop offset="100%" stop-color="#ffbd72" />
+        </linearGradient>
+        <linearGradient id="cog-center-color" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#a1a1a1" />
+            <stop offset="100%" stop-color="#a1a1a1" />
+        </linearGradient>
+        <linearGradient id="cog-tip-color" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#bdbdbd" />
+            <stop offset="40%" stop-color="#838383" />
+        </linearGradient>
+    </defs>
+    <g id="cog-wheel" fill="url(#cog-tip-color)">
+        <rect width="18" height="20" rx="5" x="41" y="12" />
+        <rect width="18" height="20" rx="5" transform="rotate(45)" x="62" y="-38" />
+        <rect width="18" height="20" rx="5" transform="rotate(90)" x="41" y="-88" />
+        <rect width="18" height="20" rx="5" transform="rotate(135)" x="-9" y="-109" />
+        <rect width="18" height="20" rx="5" transform="rotate(180)" x="-59" y="-88" />
+        <rect width="18" height="20" rx="5" transform="rotate(225)" x="-80" y="-38" />
+        <rect width="18" height="20" rx="5" transform="rotate(270)" x="-59" y="12" />
+        <rect width="18" height="20" rx="5" transform="rotate(315)" x="-9" y="33" />
+        <circle cx="50" cy="50" r="20" stroke="url(#cog-center-color)" stroke-width="20" />
+    </g>
+    <rect id="cog-tip" x="47.5" y="12" width="5" height="29" rx="1" fill="url(#git-color)" />
+    <rect id="cog-tip" x="47.5" y="59" width="5" height="29" rx="1" fill="url(#git-color)" />
+    <circle cx="50" cy="50" r="10" stroke="url(#git-color)" stroke-width="4" />
+</svg>

@@ -1,71 +1,46 @@
-# mechcommit README
+# MechCommit Extension
+
+First off, huge props to safdar-azeem on github for leading me in the right direction to make this extension.
 
 This is the README for your extension "mechcommit". After writing up a brief description, we recommend including the following sections.
+This extension tries to make commiting way more easily. It auto generates messages and then automatically commits.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+The MechCommit extension offers these following features:
 
-For example if there is an image subfolder under your extension project workspace:
+-   Automatic Committing: This extension automatically adds and commits new files to the Git repository. It makes manually commiting unnecessary.
 
-\!\[feature X\]\(images/feature-x.png\)
+-   Auto Commit Message: This extension automatically generates commit messages based on what is being committed. An example of what this might look like is `Added: test.json, test1.json; Updated: test2.json, test3.json; Deleted: test4.json, test4.json`
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+-   Deletion Handling: When a file is deleted, the extension will detect it and creates a commit message saying it's been deleted.
+
+-   Stop Command: The extension provides a stop command that allows users to halt the automatic commit process if necessary.
 
 ## Requirements
 
-You gotta have git
+-   You gotta have git
+-   Make sure you have a Git repository initialized in your workspace.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
--   `myExtension.enable`: Enable/disable this extension.
--   `myExtension.thing`: Set to `blah` to do something.
+-   `mechcommit.actionStrings`: This allows you to change the currenlty highlighted text in the example `Added`: test.json, test1.json; `Updated`: test2.json, test3.json; `Deleted`: test4.json, test4.json.
+-   `mechcommit.runPostCommitCommand`: If true, runs the post commit command if there is one set.
+-   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command.
+
+## Usage
+
+-   Open Visual Studio Code.
+-   Make sure you have a Git repository initialized in your workspace.
+-   Open the Git source control panel by clicking on the Git icon in the activity bar on the sidebar.
+    Start button
+-   In the source control panel of top, click on the "Commit" icon button to start the automatic commit process.
+-   The Auto Commit Master will start automatically committing files in the background
+    Stop button
+-   while the extension is running, you can click on the "Stop" icon button to stop the automatic commit process.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
--   [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
--   Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
--   Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
--   Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
--   [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
--   [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+None that I know off yet.

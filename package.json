@@ -1,4 +1,7 @@
 {
+    "license": "MIT",
+    "author": "Maximon9",
+    "publisher": "Maximon9",
     "name": "mechcommit",
     "displayName": "MechCommit",
     "description": "This extension tries to make commiting on vscode alot easier.",
@@ -10,6 +13,26 @@
     "categories": [
         "Other"
     ],
+    "keywords": [
+        "auto",
+        "commit",
+        "message",
+        "git",
+        "automatic",
+        "auto commit",
+        "github",
+        "generate",
+        "generate commit",
+        "master",
+        "auto commit master",
+        "bitbucket",
+        "automation",
+        "repo",
+        "GitLens",
+        "scm",
+        "git extension",
+        "auto pilot"
+    ],
     "activationEvents": [],
     "main": "./dist/extension.js",
     "contributes": {
@@ -17,12 +40,20 @@
             {
                 "command": "mechcommit.run",
                 "title": "run",
-                "category": "MechCommit"
+                "category": "MechCommit",
+                "icon": {
+                    "dark": "assets/icons/start.svg",
+                    "light": "assets/icons/start-light.svg"
+                }
             },
             {
                 "command": "mechcommit.stop",
-                "title": "run",
-                "category": "MechCommit"
+                "title": "stop",
+                "category": "MechCommit",
+                "icon": {
+                    "dark": "assets/icons/stop.svg",
+                    "light": "assets/icons/stop-light.svg"
+                }
             }
         ],
         "configuration": {
@@ -60,6 +91,20 @@
                     "description": "Overrides the current post commit command"
                 }
             }
+        },
+        "menus": {
+            "scm/title": [
+                {
+                    "command": "mechcommit.run",
+                    "when": "scmProvider == git && !mechcommit.active",
+                    "group": "navigation"
+                },
+                {
+                    "command": "mechcommit.stop",
+                    "when": "scmProvider == git && mechcommit.active",
+                    "group": "navigation"
+                }
+            ]
         }
     },
     "scripts": {
