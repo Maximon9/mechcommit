@@ -70,6 +70,7 @@ const addGitCommits = () => {
         }
         if (message !== "") {
             runGitCommand("git", ["commit", "-m", message]);
+            console.log(configs.runPostCommitCommand);
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";

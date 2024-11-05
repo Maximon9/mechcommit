@@ -35,7 +35,7 @@
                 "mechcommit.runPostCommitCommand": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Runs the post commit command, if there is one set in the settings"
+                    "description": "If true post commit command is ran"
                 },
                 "mechcommit.overridePostCommitCommand": {
                     "type": "string",
