@@ -25,7 +25,7 @@ interface Configs extends WorkspaceConfiguration {
 
 let stopFlag = false;
 
-const addGitCommits = async () => {
+const addGitCommits = () => {
     const configs = workspace.getConfiguration("mechcommit") as Configs;
     if (
         !configs.has("stopTime") ||
@@ -35,12 +35,15 @@ const addGitCommits = async () => {
     ) {
         return;
     }
-    if (stopFlag) {
-        return;
-    }
-    await sleep(configs.stopTime);
-    if (stopFlag) {
-        return;
+    let lastTime = Date.now();
+    let timer = 0;
+    while (timer <= configs.stopTime) {
+        const currentTime = Date.now();
+        const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
+
+        timer += deltaTime;
+
+        lastTime = currentTime;
     }
     const gitModifications = getGitModifications();
     if (gitModifications !== undefined) {
@@ -83,9 +86,6 @@ const addGitCommits = async () => {
                 return;
             }
             runGitCommand("git", ["commit", "-m", message]);
-            if (stopFlag) {
-                return;
-            }
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";
@@ -101,9 +101,6 @@ const addGitCommits = async () => {
                         break;
                     case "sync":
                         runGitCommand("git", ["pull"]);
-                        if (stopFlag) {
-                            return;
-                        }
                         runGitCommand("git", ["push"]);
                         break;
                 }
