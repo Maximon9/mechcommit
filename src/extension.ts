@@ -7,6 +7,7 @@ import { getGitModifications } from "./utils/getListOfFiles";
 import { runGitCommand } from "./utils/runGitCommand";
 import { checkGitStatus } from "./utils/checkGitStatus";
 import { generateCommitMessage } from "./utils/generateCommitMessage";
+import { sleep } from "./utils/sleep";
 
 type PostCommitCommand = "none" | "push" | "sync";
 type OverridePostCommitCommand = "nooverride" | "none" | "push" | "sync";
@@ -23,7 +24,14 @@ interface Configs extends WorkspaceConfiguration {
 
 let stopFlag = false;
 
-const addGitCommits = () => {
+const addGitCommits = async () => {
+    if (stopFlag) {
+        return;
+    }
+    await sleep(0.5);
+    if (stopFlag) {
+        return;
+    }
     const gitModifications = getGitModifications();
     const configs = workspace.getConfiguration("mechcommit") as Configs;
     if (
@@ -69,7 +77,13 @@ const addGitCommits = () => {
             }
         }
         if (message !== "") {
+            if (stopFlag) {
+                return;
+            }
             runGitCommand("git", ["commit", "-m", message]);
+            if (stopFlag) {
+                return;
+            }
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";
@@ -85,6 +99,9 @@ const addGitCommits = () => {
                         break;
                     case "sync":
                         runGitCommand("git", ["pull"]);
+                        if (stopFlag) {
+                            return;
+                        }
                         runGitCommand("git", ["push"]);
                         break;
                 }
@@ -96,7 +113,7 @@ const addGitCommits = () => {
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.run", () => {
+    const start = commands.registerCommand("mechcommit.run", async () => {
         process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
 
         const status = checkGitStatus();
@@ -121,7 +138,7 @@ export function activate(context: ExtensionContext) {
         commands.executeCommand("setContext", "MechCommit.active", true);
         window.showInformationMessage("Auto Commit Master started!");
 
-        addGitCommits();
+        await addGitCommits();
 
         if (!stopFlag) {
             window.showInformationMessage("All files are committed!");
