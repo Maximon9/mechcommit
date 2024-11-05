@@ -119,7 +119,7 @@ const addGitCommits = () => {
 // This method is called when the extension is activated
 // This extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.run", async () => {
+    const start = commands.registerCommand("mechcommit.run", () => {
         process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
 
         const status = checkGitStatus();
@@ -152,7 +152,7 @@ export function activate(context: ExtensionContext) {
         }
     });
 
-    const stop = commands.registerCommand("mechcommit.stop", async () => {
+    const stop = commands.registerCommand("mechcommit.stop", () => {
         console.log("Stop has started");
         stopFlag = true;
         commands.executeCommand("setContext", "mechcommit.active", false);
