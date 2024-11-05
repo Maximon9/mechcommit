@@ -147,7 +147,7 @@ export function activate(context: ExtensionContext) {
     });
 
     const stop = commands.registerCommand("mechcommit.stop", () => {
-        console.log("Stop started");
+        console.log("Stop has started");
         stopFlag = true;
         commands.executeCommand("setContext", "mechcommit.active", false);
         window.showInformationMessage("Auto Commit Master stopped!");
