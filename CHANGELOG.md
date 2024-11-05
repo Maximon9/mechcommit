@@ -14,3 +14,7 @@ All notable changes to the "mechcommit" extension will be documented in this fil
 
 -   Updated README.md file
 -   Updated package.json file
+
+## [0.0.4] - 2024-11-5
+
+-   Updated README.md file

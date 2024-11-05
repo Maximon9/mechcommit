@@ -9,7 +9,7 @@
         "type": "git",
         "url": "https://github.com/Maximon9/mechcommit.git"
     },
-    "version": "0.0.3",
+    "version": "0.0.4",
     "icon": "./assets/icons/mechIcon.png",
     "engines": {
         "vscode": "^1.95.0"
