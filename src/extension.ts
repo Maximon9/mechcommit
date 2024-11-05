@@ -10,6 +10,7 @@ import { generateCommitMessage } from "./utils/generateCommitMessage";
 import { setInterval } from "timers/promises";
 import { start } from "repl";
 
+type PreCommitCommand = "none" | "fetch" | "fetch&merge" | "pull";
 type PostCommitCommand = "none" | "push" | "sync";
 type OverridePostCommitCommand = "nooverride" | "none" | "push" | "sync";
 interface ActionString {
@@ -20,6 +21,7 @@ interface ActionString {
 interface Configs extends WorkspaceConfiguration {
     stopTime: number;
     actionStrings: ActionString;
+    PreCommitCommand: PreCommitCommand;
     runPostCommitCommand: boolean;
     overridePostCommitCommand: OverridePostCommitCommand;
 }
@@ -88,6 +90,22 @@ const addGitCommits = async () => {
 
         if (message !== "") {
             message += "; ";
+            if (configs.PreCommitCommand !== "none") {
+                let preCommitCommand: PreCommitCommand = "none";
+                preCommitCommand = configs.PreCommitCommand;
+                switch (preCommitCommand) {
+                    case "fetch":
+                        runGitCommand("git", ["fetch"]);
+                        break;
+                    case "fetch&merge":
+                        runGitCommand("git", ["fetch"]);
+                        runGitCommand("git", ["merge"]);
+                        break;
+                    case "pull":
+                        runGitCommand("git", ["pull"]);
+                        break;
+                }
+            }
             runGitCommand("git", ["commit", "-m", message]);
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");

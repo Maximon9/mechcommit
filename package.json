@@ -9,7 +9,7 @@
         "type": "git",
         "url": "https://github.com/Maximon9/mechcommit.git"
     },
-    "version": "0.0.4",
+    "version": "0.0.5",
     "icon": "./assets/icons/mechIcon.png",
     "engines": {
         "vscode": "^1.95.0"
@@ -69,7 +69,7 @@
                 "mechcommit.stopTime": {
                     "type": "number",
                     "default": 1,
-                    "description": "Lets the extension know how much time in milliseconds you want it to give you in order to stop after it has ran"
+                    "description": "Time in seconds you want it to give you in order to stop the extension after it has ran"
                 },
                 "mechcommit.actionStrings": {
                     "type": "object",
@@ -80,10 +80,27 @@
                     },
                     "description": "Tells the extension what strings to use to write the commit messages for modified files"
                 },
+                "mechcommit.PreCommitCommand": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "fetch",
+                        "fetch&merge",
+                        "pull"
+                    ],
+                    "markdownEnumDescriptions": [
+                        "Don't run any command before a commit.",
+                        "Run 'git fetch' before a commit.",
+                        "Run 'git fetch' then `git merge` before a commit.",
+                        "Run 'git pull' before a commit."
+                    ],
+                    "default": "none",
+                    "description": "Runs a git command before a commit"
+                },
                 "mechcommit.runPostCommitCommand": {
                     "type": "boolean",
                     "default": true,
-                    "description": "If true post commit command is ran"
+                    "description": "If true, the post commit command runs"
                 },
                 "mechcommit.overridePostCommitCommand": {
                     "type": "string",
@@ -100,7 +117,7 @@
                         "Run 'git pull' and 'git push' after a successful commit."
                     ],
                     "default": "nooverride",
-                    "description": "Overrides the current post commit command"
+                    "description": "Overrides the current post commit command, which runs a command after a successful commit"
                 }
             }
         },
