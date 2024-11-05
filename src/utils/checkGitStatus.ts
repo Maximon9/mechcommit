@@ -12,6 +12,7 @@ export const checkGitStatus = (): GitStatus => {
             "status",
         ]);
         console.log(gitStatus.stdout.toString());
+
         if (
             gitStatus.stdout
                 .toString()
