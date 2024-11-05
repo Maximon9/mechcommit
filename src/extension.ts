@@ -8,6 +8,7 @@ import { runGitCommand } from "./utils/runGitCommand";
 import { checkGitStatus } from "./utils/checkGitStatus";
 import { generateCommitMessage } from "./utils/generateCommitMessage";
 import { sleep } from "./utils/sleep";
+import { privateDecrypt } from "crypto";
 
 type PostCommitCommand = "none" | "push" | "sync";
 type OverridePostCommitCommand = "nooverride" | "none" | "push" | "sync";
@@ -44,9 +45,9 @@ const addGitCommits = () => {
         }
         const currentTime = Date.now();
         const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
-        console.log(deltaTime);
 
         timer += deltaTime;
+        console.log(timer);
 
         lastTime = currentTime;
         if (stopFlag) {
