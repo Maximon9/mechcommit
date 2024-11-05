@@ -73,7 +73,7 @@ const addGitCommits = () => {
             if (configs.runPostCommitCommand) {
                 const gitConfigs = workspace.getConfiguration("git");
                 let postCommitCommand: PostCommitCommand = "none";
-                console.log(gitConfigs.get(postCommitCommand));
+                console.log(gitConfigs.get("postCommitCommand"));
                 if (configs.has("postCommitCommand")) {
                     postCommitCommand = gitConfigs.postCommitCommand;
                 }
