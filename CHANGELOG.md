@@ -22,4 +22,4 @@ All notable changes to the "mechcommit" extension will be documented in this fil
 ## [0.0.4] - 2024-11-5
 
 -   Added more configs
--   -   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command, which runs after a successful commit.
+    -   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command, which runs after a successful commit.

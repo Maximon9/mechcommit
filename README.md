@@ -28,7 +28,7 @@ This extension contributes the following settings:
 -   `mechcommit.actionStrings`: This allows you to change the currenlty highlighted text in the example `Added`: test.json, test1.json; `Updated`: test2.json, test3.json; `Deleted`: test4.json, test4.json.
 -   `mechcommit.PreCommitCommand`: This runs a git command before the commit.
 -   `mechcommit.runPostCommitCommand`: If true, runs the post commit command if there is one set.
-    -   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command, which runs after a successful commit.
+-   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command, which runs after a successful commit.
 
 ## Usage
 
