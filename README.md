@@ -26,7 +26,7 @@ This extension contributes the following settings:
 
 -   `mechcommit.stopTime`: Lets the extension know how much time in milliseconds you want it to give you in order to stop after it has ran.
 -   `mechcommit.actionStrings.addedFiles`: This allows you to change the currenlty highlighted text in the example `$${\color{yellow}Added}$$: test.json, test1.json;`
--   `mechcommit.actionStrings.updatedFiles`: This allows you to change the currenlty highlighted text in the example $${\color{yellow}Updated}$$: test2.json, test3.json;
+-   `mechcommit.actionStrings.updatedFiles`: This allows you to change the currenlty highlighted text in the example {\color{yellow}Updated}: test2.json, test3.json;
 -   `mechcommit.actionStrings.deletedFiles`: This allows you to change the currenlty highlighted text in the example $${\color{yellow}Deleted}$$: test4.json, test4.json.
 -   `mechcommit.PreCommitCommand`: This runs a git command before the commit.
 -   `mechcommit.runPostCommitCommand`: If true, runs the post commit command if there is one set.
