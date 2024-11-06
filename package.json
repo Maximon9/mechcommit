@@ -9,7 +9,7 @@
         "type": "git",
         "url": "https://github.com/Maximon9/mechcommit.git"
     },
-    "version": "0.0.5",
+    "version": "0.0.6",
     "icon": "./assets/icons/mechIcon.png",
     "engines": {
         "vscode": "^1.95.0"
@@ -71,14 +71,20 @@
                     "default": 1,
                     "description": "Time in seconds you want it to give you in order to stop the extension after it has ran"
                 },
-                "mechcommit.actionStrings": {
-                    "type": "object",
-                    "default": {
-                        "addedFiles": "Added",
-                        "updatedFiles": "Updated",
-                        "deletedFiles": "Deleted"
-                    },
-                    "description": "Tells the extension what strings to use to write the commit messages for modified files"
+                "mechcommit.actionStrings.addedFiles": {
+                    "type": "string",
+                    "default": "Added",
+                    "description": "Tells the extension what strings to use to write the commit messages for files added to the repository"
+                },
+                "mechcommit.actionStrings.updatedFiles": {
+                    "type": "string",
+                    "default": "Updated",
+                    "description": "Tells the extension what strings to use to write the commit messages for files that have been updated"
+                },
+                "mechcommit.actionStrings.deletedFiles": {
+                    "type": "string",
+                    "default": "Deleted",
+                    "description": "Tells the extension what strings to use to write the commit messages for files that have been deleted"
                 },
                 "mechcommit.PreCommitCommand": {
                     "type": "string",
