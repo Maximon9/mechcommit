@@ -91,8 +91,8 @@ const addGitCommits = async () => {
         if (message !== "") {
             message += "; ";
             if (configs.PreCommitCommand !== "none") {
-                let preCommitCommand: PreCommitCommand = "none";
-                preCommitCommand = configs.PreCommitCommand;
+                const preCommitCommand: PreCommitCommand =
+                    configs.PreCommitCommand;
                 switch (preCommitCommand) {
                     case "fetch":
                         runGitCommand("git", ["fetch"]);
