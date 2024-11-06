@@ -28,3 +28,8 @@ All notable changes to the "mechcommit" extension will be documented in this fil
 
 -   Modified the configurations to make a little more sense
 -   Nothing really changed.
+
+## [0.0.7] - 2024-11-6
+
+-   Nothing really changed.
+-   I just updated some message popups.

@@ -153,7 +153,7 @@ const startFunc = async () => {
 
     stopFlag = false;
     commands.executeCommand("setContext", "mechcommit.active", true);
-    window.showInformationMessage("Auto Commit Master started!");
+    window.showInformationMessage("MechCommit is running!");
 
     await addGitCommits();
 
@@ -167,7 +167,7 @@ const stopFunc = () => {
     console.log("Stop has started");
     stopFlag = true;
     commands.executeCommand("setContext", "mechcommit.active", false);
-    window.showInformationMessage("Auto Commit Master stopped!");
+    window.showInformationMessage("MechCommit has stopped!");
     console.log("It tried stopping");
 };
 

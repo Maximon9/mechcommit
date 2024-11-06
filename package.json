@@ -9,7 +9,7 @@
         "type": "git",
         "url": "https://github.com/Maximon9/mechcommit.git"
     },
-    "version": "0.0.6",
+    "version": "0.0.7",
     "icon": "./assets/icons/mechIcon.png",
     "engines": {
         "vscode": "^1.95.0"
@@ -31,7 +31,6 @@
         "generate",
         "generate commit",
         "master",
-        "auto commit master",
         "bitbucket",
         "automation",
         "repo",
