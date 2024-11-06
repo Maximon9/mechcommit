@@ -1,23 +1,27 @@
-// const { spawnSync } = require("child_process")
-// const { readdirSync, rmSync, readFileSync} = require("fs")
-import { execSync } from "child_process";
-import { readdirSync, rmSync, readFileSync } from "fs";
+const { execSync } = require("child_process");
+const { readdirSync, rmSync, readFileSync } = require("fs");
 
 function main() {
     const changlog_path = "./CHANGELOG.md";
     const packageData = readFileSync("./package.json", { encoding: "utf-8" });
     const extension = JSON.parse(packageData);
-    if (!("name" in extension) || !("version" in extension)) {
+    if (
+        !("name" in extension) ||
+        !("version" in extension) ||
+        !("publisher" in extension)
+    ) {
         return;
     }
-
+    console.log("Remove previous vsix files");
     const names = readdirSync(".", { encoding: "utf-8" });
     const vsix_file_name = `${extension.name}-${extension.version}.vsix`;
-    for (const name in names) {
+    for (let index = 0; index < names.length; index++) {
+        const name = names[index];
         if (name.includes(".vsix") && name !== vsix_file_name) {
             rmSync(`./${name}`);
         }
     }
+    console.log("Finished removing previous vsix files");
 
     const changelogData = readFileSync(changlog_path, { encoding: "utf-8" });
 
@@ -28,38 +32,34 @@ function main() {
 
     const changlogDate = `${year}-${month}-${day}`;
 
+    console.log("");
+    console.log("Now checking if changelog has the new version details in it");
     const changelogVersionString = `## [${extension.version}] - ${changlogDate}`;
     if (!changelogData.includes(changelogVersionString)) {
         throw Error(
             `You must add "${changelogVersionString}" to the CHANGELOG.md file`
         );
     }
+    console.log("Passed the check");
 
+    console.log("");
+    console.log("Creating new vsix file with current version");
     try {
-        const publish = execSync("vsce package", { encoding: "utf-8" });
-        const lines = publish.trim().replaceAll("\r", "").split("\n");
-        for (const line in lines) {
-            if (!line.includes("[DEP0040]") && !line.includes("deprecation")) {
-                console.log(line);
-            }
-        }
-    } catch (error) {
-        throw error;
+        execSync("vsce package", { encoding: "utf-8" });
+        console.log("Finished creating the file");
+    } catch (_) {
+        return;
     }
 
+    console.log("");
+    console.log("Publishing the extension");
     try {
-        const publish = execSync(
-            "vsce publish -p [REPLACE SQUARE BRACKETS WITH TOKEN]",
-            { encoding: "utf-8" }
-        );
-        const lines = publish.trim().replaceAll("\r", "").split("\n");
-        for (const line in lines) {
-            if (!line.includes("[DEP0040]") && !line.includes("deprecation")) {
-                console.log(line);
-            }
-        }
-    } catch (error) {
-        throw error;
+        execSync("vsce publish -p [REPLACE SQUARE BRACKETS WITH TOKEN]", {
+            encoding: "utf-8",
+        });
+        console.log("Finished publishing the extension");
+    } catch (_) {
+        return;
     }
 }
 
