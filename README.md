@@ -24,7 +24,7 @@ The MechCommit extension offers these following features:
 
 ## Extension Settings
 
--   `mechcommit.stopTime`: Lets the extension know how much time in milliseconds you want it to give you in order to stop after it has ran.
+-   `mechcommit.stopTime`: Lets the extension know how much time in seconds you want it to give you to stop after extension before it starts committing.
 -   `mechcommit.actionStrings.addedFiles`: This allows you to change the currenlty highlighted text in the example commit message **_<mark style="background: yellow" >Added</mark>: test.json, test1.json;_**
 -   `mechcommit.actionStrings.updatedFiles`: This allows you to change the currenlty highlighted text in the example commit message **_<mark style="background: yellow" >Updated</mark>: test2.json, test3.json;_**
 -   `mechcommit.actionStrings.deletedFiles`: This allows you to change the currenlty highlighted text in the example commit message **_<mark style="background: yellow" >Deleted</mark>: test4.json, test4.json._**
