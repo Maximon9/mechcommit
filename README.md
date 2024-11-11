@@ -38,12 +38,12 @@ The MechCommit extension offers these following features:
 -   Make sure you have a Git repository initialized in your workspace.
 -   Open the Git source control panel by clicking on the Git icon in the activity bar on the sidebar.
 
-### Run button
+#### Run button
 
 -   In the source control panel at the top, click on the "MechCommit Cog Wheel" icon button to run the automatic commit process.
 -   This will start committing files after the timer, which gives you time to stop the process ends.
 
-### Stop button
+#### Stop button
 
 -   While the extension is running, and the timer hasn't finished, you can click on the "MechCommit Cog Wheel" icon button again to stop the automatic commit process.
 
