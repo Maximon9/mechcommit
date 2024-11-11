@@ -42,12 +42,12 @@ This extension contributes the following settings:
 
 ### Run button
 
--   In the source control panel at the top, click on the run "Commit Cog Wheel" icon button to run the automatic commit process.
--   The Auto Commit Master will start automatically committing files in the background
+-   In the source control panel at the top, click on the "MechCommit Cog Wheel" icon button to run the automatic commit process.
+-   This will start committing files after the timer, which gives you time to stop the process ends.
 
 ### Stop button
 
--   while the extension is running, you can click on the stop "Commit Cog Wheel" icon button to stop the automatic commit process.
+-   while the extension is running, and the timer hasn't finished, you can click on the "MechCommit Cog Wheel" icon button again to stop the automatic commit process.
 
 ## Known Issues
 
