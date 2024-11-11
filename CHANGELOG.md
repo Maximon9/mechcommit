@@ -33,3 +33,8 @@ All notable changes to the "mechcommit" extension will be documented in this fil
 
 -   Nothing really changed.
 -   I just updated some message popups.
+
+## [0.1.0] - 2024-11-11
+
+-   This update adds a validation system for git config --global user.name and user.email
+-   If for some reason these are invalid or empty, the extension will ask you for a name, email or both, so that it's able to commit

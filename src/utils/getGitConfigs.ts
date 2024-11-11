@@ -1,7 +1,7 @@
 import { window } from "vscode";
 import { runGitCommand } from "./runGitCommand";
 
-type GitConfigs = {
+export type GitConfigs = {
     user?: {
         name?: string;
         email?: string;

@@ -9,6 +9,7 @@ import { checkGitStatus } from "./utils/checkGitStatus";
 import { generateCommitMessage } from "./utils/generateCommitMessage";
 import { setInterval } from "timers/promises";
 import { runGitCommand } from "./utils/runGitCommand";
+import { GitConfigs } from "./utils/getGitConfigs";
 import { getGitConfigs } from "./utils/getGitConfigs";
 
 type PreCommitCommand = "none" | "fetch" | "fetch&merge" | "pull";
@@ -137,97 +138,120 @@ const addGitCommits = async (): Promise<void> => {
 };
 
 /**
- * This validates an email.
+ * checks if string is an email.
  * @param email is the email
- * @returns {boolean} true if email is vallid
+ * @returns {boolean} true if email is valid
  */
-const validateGitUserEmail = (email: string): boolean => {
+const isEmail = (email: string): boolean => {
     const re =
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     return re.test(email);
 };
-/**
- * This is incase I find out there is a specific way to validate git configs user.name.
- * @param name is the name
- * @returns {boolean} true if email is vallid
- */
-const validateGitUserName = (name: string): boolean => {
-    return true;
-};
 
 /**
- * This checks if the configs needed to commmit are valid
- * @returns {boolean} true if configs needed are valid
+ * This validates git config --global user.email.
+ * @param email is the email
+ * @returns {boolean} true if email is valid
  */
-const validateGitConfigs = (): boolean => {
-    const configs = getGitConfigs();
+const validateGitUserEmail = (configs: GitConfigs): boolean => {
     if (configs.user !== undefined) {
-        if (
-            configs.user.name !== undefined &&
-            configs.user.email !== undefined
-        ) {
-            return (
-                validateGitUserName(configs.user.name) &&
-                validateGitUserEmail(configs.user.email)
-            );
+        if (configs.user.email !== undefined) {
+            return isEmail(configs.user.email);
         }
     }
     return false;
 };
+
 /**
- * This runs the extension
- * @returns {Promise<void>}
+ * checks if string is a name.
+ * @param email is the email
+ * @returns {boolean} true if email is valid
  */
-const runFunc = async (): Promise<void> => {
-    if (!validateGitConfigs()) {
-        let userResponse = await window.showInputBox({
+const isName = (name: string): boolean => {
+    return name !== "";
+};
+
+/**
+ * This validates git config --global user.name
+ * @param name is the name
+ * @returns {boolean} true if email is vallid
+ */
+const validateGitUserName = (configs: GitConfigs): boolean => {
+    if (configs.user !== undefined) {
+        if (configs.user.name !== undefined) {
+            return isName(configs.user.name);
+        }
+    }
+    return false;
+};
+
+/**
+ * This checks if the configs needed to commmit are valid
+ * @returns {Promise<boolean>} true if configs needed are valid
+ */
+const validateGitConfigs = async (configs: GitConfigs): Promise<boolean> => {
+    if (!validateGitUserName(configs)) {
+        const response = await window.showInputBox({
             placeHolder: "Type a name",
         });
-        if (userResponse === undefined) {
+        if (response === undefined) {
             window.showErrorMessage(
                 "The name hasn't been set so no commits will run until a valid name is given"
             );
-            return;
+            return false;
         } else {
-            if (validateGitUserName(userResponse)) {
+            if (isName(response)) {
                 runGitCommand("git", [
                     "config",
                     "--global",
                     "user.name",
-                    userResponse,
+                    response,
                 ]);
             } else {
                 window.showErrorMessage(
                     "The name is invalid so no commits will run until a valid name is given"
                 );
-                return;
+                return false;
             }
         }
+    }
 
-        userResponse = await window.showInputBox({
+    if (!validateGitUserEmail(configs)) {
+        const response = await window.showInputBox({
             placeHolder: "Type an email",
         });
-        if (userResponse === undefined) {
+        if (response === undefined) {
             window.showErrorMessage(
                 "The email hasn't been set so no commits will run until a valid email is given"
             );
-            return;
+            return false;
         }
         {
-            if (validateGitUserEmail(userResponse)) {
+            if (isEmail(response)) {
                 runGitCommand("git", [
                     "config",
                     "--global",
                     "user.email",
-                    userResponse,
+                    response,
                 ]);
             } else {
                 window.showErrorMessage(
                     "The email is invalid so no commits will run until a valid email is given"
                 );
-                return;
+                return false;
             }
         }
+    }
+    return true;
+};
+
+/**
+ * This runs the extension
+ * @returns {Promise<void>}
+ */
+const runFunc = async (): Promise<void> => {
+    if (!(await validateGitConfigs(getGitConfigs()))) {
+        return;
     }
 
     process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
