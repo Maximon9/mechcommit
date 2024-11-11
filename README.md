@@ -15,6 +15,8 @@ The MechCommit extension offers these following features:
 
 -   Stop Command: The extension provides a stop command that allows users to halt the automatic commit process if necessary.
 
+-   Git Config Validation: This extension will make sure that the git configs that are needed to commit are valid. These configs are user.name and user.email. If for some reason these configs are empty or invalid, the extension will ask you to provide them.
+
 ## Requirements
 
 -   You gotta have git.
