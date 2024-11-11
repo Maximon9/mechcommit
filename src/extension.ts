@@ -1,14 +1,15 @@
+//#region
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import type { WorkspaceConfiguration, ExtensionContext } from "vscode";
 import type { GitModifications } from "./utils/getListOfFiles";
 import { window, workspace, commands } from "vscode";
 import { getGitModifications } from "./utils/getListOfFiles";
-import { runGitCommand } from "./utils/runGitCommand";
 import { checkGitStatus } from "./utils/checkGitStatus";
 import { generateCommitMessage } from "./utils/generateCommitMessage";
 import { setInterval } from "timers/promises";
-import { start } from "repl";
+import { runGitCommand } from "./utils/runGitCommand";
+import { getGitConfigs } from "./utils/getGitConfigs";
 
 type PreCommitCommand = "none" | "fetch" | "fetch&merge" | "pull";
 type PostCommitCommand = "none" | "push" | "sync";
@@ -28,7 +29,11 @@ interface Configs extends WorkspaceConfiguration {
 
 let stopFlag = false;
 
-const addGitCommits = async () => {
+/**
+ * This add commits
+ * @returns {Promise<void>}
+ */
+const addGitCommits = async (): Promise<void> => {
     const configs = workspace.getConfiguration("mechcommit") as Configs;
     if (
         !configs.has("stopTime") ||
@@ -36,6 +41,7 @@ const addGitCommits = async () => {
         !configs.has("runPostCommitCommand") ||
         !configs.has("overridePostCommitCommand")
     ) {
+        window.showErrorMessage("Configs are wrong somehow");
         return;
     }
     var stopTimeInMs = configs.stopTime * 1000;
@@ -130,7 +136,100 @@ const addGitCommits = async () => {
     }
 };
 
-const startFunc = async () => {
+/**
+ * This validates an email.
+ * @param email is the email
+ * @returns {boolean} true if email is vallid
+ */
+const validateGitUserEmail = (email: string): boolean => {
+    const re =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    return re.test(email);
+};
+/**
+ * This is incase I find out there is a specific way to validate git configs user.name.
+ * @param name is the name
+ * @returns {boolean} true if email is vallid
+ */
+const validateGitUserName = (name: string): boolean => {
+    return true;
+};
+
+/**
+ * This checks if the configs needed to commmit are valid
+ * @returns {boolean} true if configs needed are valid
+ */
+const validateGitConfigs = (): boolean => {
+    const configs = getGitConfigs();
+    if (configs.user !== undefined) {
+        if (
+            configs.user.name !== undefined &&
+            configs.user.email !== undefined
+        ) {
+            return (
+                validateGitUserName(configs.user.name) &&
+                validateGitUserEmail(configs.user.email)
+            );
+        }
+    }
+    return false;
+};
+/**
+ * This runs the extension
+ * @returns {Promise<void>}
+ */
+const runFunc = async (): Promise<void> => {
+    if (!validateGitConfigs()) {
+        let userResponse = await window.showInputBox({
+            placeHolder: "Type a name",
+        });
+        if (userResponse === undefined) {
+            window.showErrorMessage(
+                "The name hasn't been set so no commits will run until a valid name is given"
+            );
+            return;
+        } else {
+            if (validateGitUserName(userResponse)) {
+                runGitCommand("git", [
+                    "config",
+                    "--global",
+                    "user.name",
+                    userResponse,
+                ]);
+            } else {
+                window.showErrorMessage(
+                    "The name is invalid so no commits will run until a valid name is given"
+                );
+                return;
+            }
+        }
+
+        userResponse = await window.showInputBox({
+            placeHolder: "Type an email",
+        });
+        if (userResponse === undefined) {
+            window.showErrorMessage(
+                "The email hasn't been set so no commits will run until a valid email is given"
+            );
+            return;
+        }
+        {
+            if (validateGitUserEmail(userResponse)) {
+                runGitCommand("git", [
+                    "config",
+                    "--global",
+                    "user.email",
+                    userResponse,
+                ]);
+            } else {
+                window.showErrorMessage(
+                    "The email is invalid so no commits will run until a valid email is given"
+                );
+                return;
+            }
+        }
+    }
+
     process.chdir(workspace.workspaceFolders?.[0].uri.fsPath ?? "");
 
     const status = checkGitStatus();
@@ -163,18 +262,23 @@ const startFunc = async () => {
     }
 };
 
-const stopFunc = () => {
-    console.log("Stop has started");
+/**
+ * This stops the extension
+ * @returns {void}
+ */
+const stopFunc = (): void => {
     stopFlag = true;
     commands.executeCommand("setContext", "mechcommit.active", false);
     window.showInformationMessage("MechCommit has stopped!");
-    console.log("It tried stopping");
 };
 
-// This method is called when the extension is activated
-// This extension is activated the very first time the command is executed
-export function activate(context: ExtensionContext) {
-    const start = commands.registerCommand("mechcommit.run", startFunc);
+/**
+ * This method is called when the extension is activated
+ * This extension is activated the very first time the command is executed
+ * @returns {void}
+ */
+export function activate(context: ExtensionContext): void {
+    const start = commands.registerCommand("mechcommit.run", runFunc);
 
     const stop = commands.registerCommand("mechcommit.stop", stopFunc);
 
@@ -182,5 +286,9 @@ export function activate(context: ExtensionContext) {
     commands.executeCommand("setContext", "mechcommit.active", false);
 }
 
-// This method is called when this extension is deactivated
-export function deactivate() {}
+/**
+ * This method is called when this extension is deactivated
+ * @returns {void}
+ */
+export function deactivate(): void {}
+//#endregion

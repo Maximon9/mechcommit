@@ -1,5 +1,4 @@
-import type { SpawnSyncReturns } from "child_process";
-import { spawnSync } from "child_process";
+import { runGitCommand } from "./runGitCommand";
 
 interface GitStatus {
     error?: string;
@@ -8,23 +7,17 @@ interface GitStatus {
 
 export const checkGitStatus = (): GitStatus => {
     try {
-        const gitStatus: SpawnSyncReturns<Buffer> = spawnSync("git", [
-            "status",
-        ]);
+        const gitStatus = runGitCommand("git", ["status"]);
 
         if (
-            gitStatus.stdout
-                .toString()
-                .includes("nothing to commit, working tree clean")
+            gitStatus.stdout.includes("nothing to commit, working tree clean")
         ) {
             return {
                 message: "All files are committed!",
             };
         }
 
-        if (
-            gitStatus.stderr.toString().includes("fatal: not a git repository")
-        ) {
+        if (gitStatus.stderr.includes("fatal: not a git repository")) {
             return {
                 error: "Git is not initialized in this directory!",
             };
