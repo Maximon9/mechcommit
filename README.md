@@ -40,12 +40,12 @@ This extension contributes the following settings:
 -   Make sure you have a Git repository initialized in your workspace.
 -   Open the Git source control panel by clicking on the Git icon in the activity bar on the sidebar.
 
-# Run button
+### Run button
 
 -   In the source control panel at the top, click on the run "Commit Cog Wheel" icon button to run the automatic commit process.
 -   The Auto Commit Master will start automatically committing files in the background
 
-# Stop button
+### Stop button
 
 -   while the extension is running, you can click on the stop "Commit Cog Wheel" icon button to stop the automatic commit process.
 
