@@ -47,7 +47,7 @@ This extension contributes the following settings:
 
 ### Stop button
 
--   while the extension is running, and the timer hasn't finished, you can click on the "MechCommit Cog Wheel" icon button again to stop the automatic commit process.
+-   While the extension is running, and the timer hasn't finished, you can click on the "MechCommit Cog Wheel" icon button again to stop the automatic commit process.
 
 ## Known Issues
 
