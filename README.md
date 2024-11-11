@@ -31,7 +31,7 @@ This extension contributes the following settings:
 -   `mechcommit.actionStrings.updatedFiles`: This allows you to change the currenlty highlighted text in the example commit message **_<mark style="background: yellow" >Updated</mark>: test2.json, test3.json;_**
 -   `mechcommit.actionStrings.deletedFiles`: This allows you to change the currenlty highlighted text in the example commit message **_<mark style="background: yellow" >Deleted</mark>: test4.json, test4.json._**
 -   `mechcommit.PreCommitCommand`: This runs a git command before the commit.
--   `mechcommit.runPostCommitCommand`: If true, runs the post commit command if there is one set.
+-   `mechcommit.runPostCommitCommand`: If true, this runs the git post commit command that is set in your settings, which runs after a successful commit.
 -   `mechcommit.overridePostCommitCommand`: This overrides the current post commit command, which runs after a successful commit.
 
 ## Usage
