@@ -1,6 +1,7 @@
 # MechCommit Extension
 
-First off, huge props to safdar-azeem on github for leading me in the right direction.
+First off, huge props to safdar-azeem on github for leading me in the right direction to build this extension. [Here's his github](https://github.com/safdar-azeem) and the [repo that helped me build this](https://github.com/safdar-azeem/auto-commit-master).
+
 This extension tries to make commiting way more easily. It auto generates messages and then automatically commits.
 
 ## Features
